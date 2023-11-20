@@ -53,7 +53,7 @@ class PageDetailArticle extends StatelessWidget {
           Text(
             articleData.summary ??
                 '', // Assuming description exists in the article data
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(fontSize: 16),
           ),
           // Add other details about the article as needed
         ],
