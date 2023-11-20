@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'API_data_src.dart';
-import 'API_Model/Report_Model.dart';
+import '../API_data_src.dart';
+import '../API_Model/Article_Model.dart';
+import '../Halaman Detail/Page_Detail_Article.dart';
 
-class PageListReports extends StatefulWidget {
-  const PageListReports({super.key});
+class PageListArticles extends StatefulWidget {
+  const PageListArticles({super.key});
 
   @override
-  State<PageListReports> createState() => _PageListReportState();
+  State<PageListArticles> createState() => _PageListArticlesState();
 }
 
-class _PageListReportState extends State<PageListReports> {
+class _PageListArticlesState extends State<PageListArticles> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("REPORTS LIST"),
+        title: Text("NEWS LIST"),
+        centerTitle: true,
       ),
-      body: _buildListReportsBody(),
+      body: _buildListArticlesBody(),
     );
   }
 
-  Widget _buildListReportsBody() {
+  Widget _buildListArticlesBody() {
     return Container(
       child: FutureBuilder(
-        future: ApiDataSource.instance.loadReports(),
+        future: ApiDataSource.instance.loadArticles(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
             // Jika data ada error maka akan ditampilkan hasil error
@@ -32,8 +34,8 @@ class _PageListReportState extends State<PageListReports> {
           }
           if (snapshot.hasData) {
             // Jika data ada dan berhasil maka akan ditampilkan hasil datanya
-            ReportModel reportModel = ReportModel.fromJson(snapshot.data);
-            return _buildSuccessSection(reportModel);
+            ArticlesModel articleModel = ArticlesModel.fromJson(snapshot.data);
+            return _buildSuccessSection(articleModel);
           }
           return _buildLoadingSection();
         },
@@ -55,26 +57,36 @@ class _PageListReportState extends State<PageListReports> {
     );
   }
 
-  Widget _buildSuccessSection(ReportModel results) {
+  Widget _buildSuccessSection(ArticlesModel results) {
     return ListView.builder(
-      itemCount: results.results.length,
+      itemCount: results.results!.length,
       itemBuilder: (BuildContext context, int index) {
-        return _buildItemReports(results.results[index]);
+        final data = _buildItemArticles(results.results![index]);
+        return data;
       },
     );
   }
 
-  Widget _buildItemReports(Results reportData) {
+  Widget _buildItemArticles(Results articlesData) {
     return InkWell(
       onTap: () {},
-      child: Card(
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  PageDetailArticle(articleData: articlesData),
+            ),
+          );
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               width: 150,
               height: 150,
-              child: Image.network(reportData.imageUrl),
+              child: Image.network(articlesData.imageUrl!),
             ),
             SizedBox(
               width: 20,
@@ -84,13 +96,9 @@ class _PageListReportState extends State<PageListReports> {
               children: [
                 Container(
                   width: 400, // Atur lebar sesuai kebutuhan
-                  child: Wrap(
-                    children: [
-                      Text(
-                        reportData.title,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
+                  child: Text(
+                    articlesData.title!,
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
               ],

@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'API_data_src.dart';
-import 'API_Model/Article_Model.dart';
+import '../API_data_src.dart';
+import '../API_Model/Blog_Model.dart';
+import '../Halaman Detail/Page_Detail_Blog.dart';
 
-class PageDetailArticles extends StatefulWidget {
-  final ArticlesModel data;
-  const PageDetailArticles({super.key, required this.data});
+class PageListBlogs extends StatefulWidget {
+  const PageListBlogs({super.key});
 
   @override
-  State<PageDetailArticles> createState() => _PageListArticlesState();
+  State<PageListBlogs> createState() => _PageListBlogsState();
 }
 
-class _PageListArticlesState extends State<PageDetailArticles> {
+class _PageListBlogsState extends State<PageListBlogs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("NEWS LIST"),
+        title: Text("BLOGS LIST"),
+        centerTitle: true,
       ),
-      body: _buildListArticlesBody(),
+      body: _buildListBlogsBody(),
     );
   }
 
-  Widget _buildListArticlesBody() {
+  Widget _buildListBlogsBody() {
     return Container(
       child: FutureBuilder(
-        future: ApiDataSource.instance.loadArticles(),
+        future: ApiDataSource.instance.loadBlogs(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
             // Jika data ada error maka akan ditampilkan hasil error
@@ -33,8 +34,8 @@ class _PageListArticlesState extends State<PageDetailArticles> {
           }
           if (snapshot.hasData) {
             // Jika data ada dan berhasil maka akan ditampilkan hasil datanya
-            ArticlesModel articleModel = ArticlesModel.fromJson(snapshot.data);
-            return _buildSuccessSection(articleModel);
+            BlogModel blogModel = BlogModel.fromJson(snapshot.data);
+            return _buildSuccessSection(blogModel);
           }
           return _buildLoadingSection();
         },
@@ -56,18 +57,25 @@ class _PageListArticlesState extends State<PageDetailArticles> {
     );
   }
 
-  Widget _buildSuccessSection(ArticlesModel results) {
+  Widget _buildSuccessSection(BlogModel results) {
     return ListView.builder(
-      itemCount: results.results!.length,
+      itemCount: results.results.length,
       itemBuilder: (BuildContext context, int index) {
-        return _buildItemArticles(results.results![index]);
+        return _buildItemBlog(results.results[index]);
       },
     );
   }
 
-  Widget _buildItemArticles(Results articlesData) {
+  Widget _buildItemBlog(Results blogsData) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PageDetailBlog(BlogData: blogsData),
+          ),
+        );
+      },
       child: Card(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -75,7 +83,7 @@ class _PageListArticlesState extends State<PageDetailArticles> {
             Container(
               width: 150,
               height: 150,
-              child: Image.network(articlesData.imageUrl!),
+              child: Image.network(blogsData.imageUrl),
             ),
             SizedBox(
               width: 20,
@@ -88,7 +96,7 @@ class _PageListArticlesState extends State<PageDetailArticles> {
                   child: Wrap(
                     children: [
                       Text(
-                        articlesData.title!,
+                        blogsData.title,
                         style: TextStyle(fontSize: 16),
                       ),
                     ],

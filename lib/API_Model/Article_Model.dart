@@ -12,17 +12,19 @@ class ArticlesModel {
   });
 
   ArticlesModel.fromJson(Map<String, dynamic> json)
-    : count = json['count'] as int?,
-      next = json['next'] as String?,
-      previous = json['previous'],
-      results = (json['results'] as List?)?.map((dynamic e) => Results.fromJson(e as Map<String,dynamic>)).toList();
+      : count = json['count'] as int?,
+        next = json['next'] as String?,
+        previous = json['previous'],
+        results = (json['results'] as List?)
+            ?.map((dynamic e) => Results.fromJson(e as Map<String, dynamic>))
+            .toList();
 
   Map<String, dynamic> toJson() => {
-    'count' : count,
-    'next' : next,
-    'previous' : previous,
-    'results' : results?.map((e) => e.toJson()).toList()
-  };
+        'count': count,
+        'next': next,
+        'previous': previous,
+        'results': results?.map((e) => e.toJson()).toList()
+      };
 }
 
 class Results {
@@ -53,29 +55,29 @@ class Results {
   });
 
   Results.fromJson(Map<String, dynamic> json)
-    : id = json['id'] as int?,
-      title = json['title'] as String?,
-      url = json['url'] as String?,
-      imageUrl = json['image_url'] as String?,
-      newsSite = json['news_site'] as String?,
-      summary = json['summary'] as String?,
-      publishedAt = json['published_at'] as String?,
-      updatedAt = json['updated_at'] as String?,
-      featured = json['featured'] as bool?,
-      launches = json['launches'] as List?,
-      events = json['events'] as List?;
+      : id = json['id'] as int?,
+        title = json['title'] as String?,
+        url = json['url'] as String?,
+        imageUrl = json['image_url'] as String?,
+        newsSite = json['news_site'] as String?,
+        summary = json['summary'] as String?,
+        publishedAt = json['published_at'] as String?,
+        updatedAt = json['updated_at'] as String?,
+        featured = json['featured'] as bool?,
+        launches = json['launches'] as List?,
+        events = json['events'] as List?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'title' : title,
-    'url' : url,
-    'image_url' : imageUrl,
-    'news_site' : newsSite,
-    'summary' : summary,
-    'published_at' : publishedAt,
-    'updated_at' : updatedAt,
-    'featured' : featured,
-    'launches' : launches,
-    'events' : events
-  };
+        'id': id,
+        'title': title,
+        'url': url,
+        'image_url': imageUrl,
+        'news_site': newsSite,
+        'summary': summary,
+        'published_at': publishedAt,
+        'updated_at': updatedAt,
+        'featured': featured,
+        'launches': launches,
+        'events': events
+      };
 }

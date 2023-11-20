@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:latihan_responsi/Page_List_Article.dart';
-import 'package:latihan_responsi/Page_List_Blog.dart';
-import 'package:latihan_responsi/Page_List_Reports.dart';
+import 'package:latihan_responsi/Halaman%20Utama/Page_List_Article.dart';
+import 'package:latihan_responsi/Halaman%20Utama/Page_List_Blog.dart';
+import 'package:latihan_responsi/Halaman%20Utama/Page_List_Reports.dart';
 
 class halamanUtama extends StatelessWidget {
   const halamanUtama({super.key});
@@ -9,6 +9,18 @@ class halamanUtama extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          color: Colors.white, // Atur warna AppBar secara global
+          iconTheme: IconThemeData(
+            color: Colors.black, // Ubah warna tombol kembali secara global
+          ),
+          titleTextStyle: TextStyle(
+            color: Colors.black, // Atur warna teks judul AppBar secara global
+            fontSize: 20, // Atur ukuran teks judul AppBar secara global
+          ),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
@@ -94,6 +106,7 @@ class MenuCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10), // Atur border radius
       ),
       margin: EdgeInsets.fromLTRB(10, 10, 10, 20), // Atur margin dari luar Card
+      color: Colors.white,
       child: InkWell(
         onTap: onTap,
         child: Column(

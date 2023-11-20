@@ -7,11 +7,6 @@ class ApiDataSource {
     return BaseNetwork.get("articles");
   }
 
-  Future<Map<String, dynamic>> loadDetailArticles(int idDiterima) {
-    String id = idDiterima.toString();
-    return BaseNetwork.get("artciles/$id");
-  }
-
   Future<Map<String, dynamic>> loadBlogs() {
     return BaseNetwork.get("blogs");
   }
